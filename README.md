@@ -20,7 +20,7 @@ The JDBC API is defined in the ***java.sql*** and ***javax.sql*** packages.
 3. Execute SQL Query
 4. Process the Result Set
 
-* ***Installation of MySQL Server*** 
+### ***Installation of MySQL Server*** 
 Go to http://dev.mysql.com/downloads 
 
 
