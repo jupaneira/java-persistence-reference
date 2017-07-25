@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.Statement;
 
-public class JdbcTest {
+public class JdbcSelectQuery {
 
 	public static void main(String[] args) throws SQLException {
 
