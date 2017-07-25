@@ -23,5 +23,8 @@ The JDBC API is defined in the ***java.sql*** and ***javax.sql*** packages.
 ### ***Installation of MySQL Server*** 
 Go to http://dev.mysql.com/downloads 
 
+### ***JDBC Driver***
+https://dev.mysql.com/downloads/connector/j/
+
 
 
