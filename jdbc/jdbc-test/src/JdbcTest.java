@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class JdbcTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 
 		Connection myConn = null;
 		Statement myStmt = null;
@@ -25,15 +25,26 @@ public class JdbcTest {
 
 			// 3. Execute SQL Query
 			myRs = myStmt.executeQuery("select * from employees");
-			
-			//4. Process the ResultSet
-			while(myRs.next()){
+
+			// 4. Process the ResultSet
+			while (myRs.next()) {
 				System.out.println(myRs.getString("last_name") + ", " + myRs.getString("first_name"));
 			}
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		} finally {
+			if (myRs != null) {
+				myRs.close();
+			}
+
+			if (myStmt != null) {
+				myStmt.close();
+			}
+
+			if (myConn != null) {
+				myConn.close();
+			}
 		}
 
 	}
