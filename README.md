@@ -51,6 +51,8 @@ Those are problems generated because de mismatch between object and relational m
 * Hides the complexity of SQL and JDBC
 * XML or Annotations
 
+### *** HIBERNATE ***
+Hibernate is an ORM framework use to map java objects to relational dabases. Java Programers are use to create POJOs and hibernate create the sql code. 
 
 
 
