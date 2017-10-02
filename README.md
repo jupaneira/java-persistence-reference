@@ -54,6 +54,12 @@ Those are problems generated because de mismatch between object and relational m
 ### **HIBERNATE**
 Hibernate is an ORM framework use to map java objects to relational dabases. Java Programers are use to create POJOs and hibernate create the sql code. 
 
+You can configure logging with hibernate
+
+## *Transactions*
+A transaction is a group of operations that are run as a single unit of work
+
+
 
 
 
