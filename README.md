@@ -58,6 +58,37 @@ You can configure logging with hibernate
 
 ## *Transactions*
 A transaction is a group of operations that are run as a single unit of work
+All the instructions are executed only when the transaction is commited. 
+
+## Entity vs Component 
+Answer the question: Do we need a individual identity of the thing that we are going to persist ? If yes, It is an @Entity, if not, it is a component (value-type) and its denoted by @Embedded - @Embeddable 
+
+## Associations
+We can stablish de relation between entities @ManyToOne , for example, and defining a @JoinColumn
+
+## Cascades
+When we have associations between entities, we can do a "transitive persistence" in order to persist automatically the chain of objects that are associated. We dont have to persist one by one. Only the root object. 
+There are many Cascade types:
+* We can use it in order to persist *CascadeType.PERSIST* 
+* We can use it in order too delete objects *CascadeType.REMOVE*  (deletes the whole object graph)
+
+In OneToOne and ManyToMany relations  we declare a side as not responsible for the relationship with 
+*@ManyToMany(mappedBy="..")*
+
+## Enum persistence
+@Enumerated(EnumType.ORDINAL/EnumType.STRING)
+
+## Persisting collection
+@ElementCollection
+@CollectionTable
+
+## Composite Primary key
+@EmbeddedId -> creating a new class to hold the involved columns
+
+
+
+
+
 
 
 
