@@ -7,7 +7,12 @@ This is a reference for the following topics:
 
 The idea is to have a nice and simple reference about what are those concepts and how should we use them
 
-### **JDBC** 
+# Table of Contents
+1. [JDBC](#jdbc) 
+2. [Development Process](#example2)
+3. [Third Example](#third-example)
+
+### **JDBC**  <a name="jdbc"></a>
 
 **J**ava **D**ata **B**ase **C**onnectivity is an API that enables the communication between Java and Relational DataBases. It is a standard API. There is no need to write different code to connect to different databases.<br /><br />
 The JDBC Architecture has a key component and is the **JDBC Driver** that converts the standar JDBC calls to low level calls of the specific database in use. It is provided by the database vendor.<br /><br />
@@ -120,7 +125,9 @@ Second-level-caching -> EntityManagerFactory in order to access data across Enti
 A collections is fetched or loaded when the application invokes an operations upon that collection. <br/>
 
 * By default,  *collection associations* (@OneToMany and @ManyToMany) are lazily fetched. It is thanks to a proxy that only loads the collection data when it is needed. **Improved performance**
-* By default, *single point associations* (@OneToOne and @ManyToOne) are eaferly fetched
+* By default, *single point associations* (@OneToOne and @ManyToOne) are eagerly fetched
+
+Example = *@OneToMany(fetch=Fetchtype.LAZY)*
 
 ### Query Language 
 When we are using JPA we are using JPQL-> deals with the entitites and data attributes and translates it to SQL at runtime. <br/>
@@ -138,6 +145,83 @@ Hibernate has own language - HQL. It is also translated into SQL at runtime.
 
 JPQL supports named parameters in the queries. 
 You can also use native SQL queries -> *entityManager.createNativeQuery(query...)*
+
+### Maping Inheritance
+
+There are 3 strategies in order to map inheritance from object model to the relational model:
+@Entity
+@Inheritance(strategy=InheritanceType.___)
+
+1. SINGLE_TABLE <br/>
+The class hierarchy is represented in one table and a discriminator column identifies the type of the subclass.
+ * Good for polymorphic queries; no joins required, all the data is in a single table
+ * All the properties in subclasses must not have not-null constraint
+
+2. JOINED <br/>
+The superclass has a table and each subclass has a table that contains only un-inherited properties. The primary key of the subclasses-tables are foreign keys to the superclass table. 
+ * Poor performance for polymorphic queries due to the number of joins
+ * All the properties in subclasses may have not-null constraint
+
+3. TABLE_PER_CLASS
+Each table contains all the properties of the concrete class and also the properties that are inherited from its superclasses.
+ * Complex performance for polymorphic queries 
+ * Good performance for derived class queries (there is a table for each derived class)
+ * Not all JPA providers might have support of it 
+
+### N+1 Selects problem 
+For single point associations (OneToOne ManyToOne) the default fetch strategy is eagerly. So in runtime, it is executed 1 select for the root object, and N selects if we have N child objects. We can solve this changing the fetching strategy from EAGERLY to LAZY, **or** writting a specific query.
+
+### Batch Fetching
+@BatchSize(size=?) --> HIBERNATE PACKAGE
+Using Batch Fetching, Hibernate can load several uninitilized proxies, even if just one proxy is accessed. 
+
+### Merging Detacheds Objects
+CascadeType.MERGE -> when updating a root object, we update also all of his dependencies if they have changed. 
+1. *Detached object* Merge needed in order to  update objects. 2 EntityManagers invovled.
+2. *Extended Persistence Context* No merge needed. Only one entityManager is used.
+
+### Optimistic Locking and Versioning
+When multiple user are accessing our database, we can protect the system against lost updates through the following ways:
+1. Versioning <br/>
+Add a new column called version in the table. <br/>
+Add a new field called version in the entity. <br/>
+Anotate it with @Version <br/>
+Hibernate is going to automatically update the version number of a changed row. <br/>
+Hibernate is going to check for the version number at each update and an excetion will be thrown, to prevent the lost update. <br/>
+***OPTIMISTIC LOCKING*** =  Official name of the Versioning strategy
+
+### Isolation Levels
+Isolation levels defines the extend to which a transaction is visible to other transactions.
+How and when the changes made by one transaction are made visible to other transactions.
+
+| Levels  (from highest to lowest isolation-level)           | 
+| --------------------|
+|  SERIALIZABLE       | 
+|  REPEATABLE_READ    | 
+|  READ_COMMITED      | 
+|  READ_UNCOMMITED    | 
+
+True Isolation = slow performance
+from 1 to 4 -> better performance & lesser data ingetrity
+
+### Catching and Object Identity
+Hibernate to be able to look for an object in a cache, it needs to know the ID of that Object.  *em.find(Class, ID)*
+If we execute a JPQL query, de query will be executed against the database, but the stored object in the cache, will continue being the same.
+
+## BEST PRACTICES
+
+1. Declare identifier properties on persistent classes (generate them with no business meaning)
+2. Do not treat exceptions. Rollback the transaction. Close the entityManager session.
+3. Prefer lazy fetching for associations
+4. Prefer bidirectional associations
+5. Use bind variables - named parameters
+
+
+
+
+
+
+
 
 
 
