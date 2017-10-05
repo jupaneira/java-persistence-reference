@@ -8,17 +8,21 @@ This is a reference for the following topics:
 The idea is to have a nice and simple reference about what are those concepts and how should we use them
 
 # Table of Contents
-1. [JDBC](#jdbc) 
-2. [Development Process](#example2)
+1. [JDBC](#jdbc) <br/>
+1.1 [Development Process](#dev_process) <br/>
+1.2 [MySQL Server installation](#mysql_installation) <br/>
+1.3 [MySQL JDBC Driver](#driver)
+2. [Object persistence Concepts](#concepts)
 3. [Third Example](#third-example)
 
-### **JDBC**  <a name="jdbc"></a>
+<a name="jdbc"></a>
+### 1. **JDBC**  
 
 **J**ava **D**ata **B**ase **C**onnectivity is an API that enables the communication between Java and Relational DataBases. It is a standard API. There is no need to write different code to connect to different databases.<br /><br />
 The JDBC Architecture has a key component and is the **JDBC Driver** that converts the standar JDBC calls to low level calls of the specific database in use. It is provided by the database vendor.<br /><br />
 The JDBC API is defined in the ***java.sql*** and ***javax.sql*** packages.
 
-#### Development Process
+#### 1.1 Development Process <a name="dev_process"></a>
 1. Get a connection to database<br/>
 1.1 Need a connection string  (jdbc url) -> ***jdbc***:***driver_protocol***:***driver_connection_details***
 2. Create a Statement object
@@ -26,12 +30,12 @@ The JDBC API is defined in the ***java.sql*** and ***javax.sql*** packages.
 4. Process the Result Set
 
 ### ***Installation of MySQL Server*** 
-Go to http://dev.mysql.com/downloads 
+Go to http://dev.mysql.com/downloads <a name="mysql_installation"></a>
 
-### ***JDBC Driver***
+### ***JDBC Driver*** <a name="driver"></a>
 https://dev.mysql.com/downloads/connector/j/
 
-### Object persistence concepts
+### Object persistence concepts  <a name="concepts"></a>
 Save to a data store the state of an object and re/created it at a later point in time
 
 RDBMS Rules
@@ -207,6 +211,12 @@ from 1 to 4 -> better performance & lesser data ingetrity
 ### Catching and Object Identity
 Hibernate to be able to look for an object in a cache, it needs to know the ID of that Object.  *em.find(Class, ID)*
 If we execute a JPQL query, de query will be executed against the database, but the stored object in the cache, will continue being the same.
+
+### Second level Cache
+Shared Data Cache /  Shared Cache accross all the entityManagers.
+Hibernate as a JPA provider does not come with an implementation of L2 Cache.
+L2 Cache is an optional optimization feature in JPA.
+@Cacheable
 
 ## BEST PRACTICES
 
